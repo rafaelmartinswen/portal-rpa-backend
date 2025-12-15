@@ -10,10 +10,8 @@ const azureRoutes = require("./routes/azure.routes");
 const app = express();
 const port = process.env.PORT || 3001;
 
-// 🔥 Domínio do seu FRONTEND hospedado no Static Web App
 const FRONT_URL = "https://calm-island-0b5e87d0f.3.azurestaticapps.net";
 
-// 🔧 Configuração correta de CORS
 const corsOptions = {
   origin: FRONT_URL,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -22,20 +20,17 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // 🔥 Faz o preflight responder corretamente
+app.use(cors(corsOptions));  // ✅ ESSA LINHA JÁ RESOLVE TUDO
 
 app.use(express.json());
 
-// --- ROTAS ---
+// rotas
 app.use("/robots", robotsRoutes);
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
 app.use("/azure", azureRoutes);
 
-// --- SERVIDOR ---
 app.listen(port, () => {
-  console.log(`Backend rodando em http://localhost:${port}`);
-  console.log(`CORS liberado para: ${FRONT_URL}`);
+  console.log(`Backend rodando na porta ${port}`);
+  console.log("CORS liberado para:", FRONT_URL);
 });
-// Deploy test 2

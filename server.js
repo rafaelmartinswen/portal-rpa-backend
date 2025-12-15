@@ -38,3 +38,4 @@ app.listen(port, () => {
   console.log(`Backend rodando em http://localhost:${port}`);
   console.log(`CORS liberado para: ${FRONT_URL}`);
 });
+// Deploy test 2

@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const { login } = require("../controllers/auth.controller");
 
-const { listarVMs, acaoVM } = require("../controllers/azure.controller");
-
-router.post("/listar-vms", listarVMs);
-router.post("/acao-vm", acaoVM);
+// rota de login
+router.post("/login", login);
 
 module.exports = router;

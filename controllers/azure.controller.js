@@ -52,18 +52,21 @@ async function listarVMs(req, res) {
         res.json(vmsComStatus);
 
     } catch (error) {
-        // Loga variáveis de ambiente relevantes para diagnosticar valores vazios
-        console.error("Erro ao listar VMs", {
-            AZURE_SUBSCRIPTION_ID: process.env.AZURE_SUBSCRIPTION_ID,
-            AZURE_RESOURCE_GROUP: process.env.AZURE_RESOURCE_GROUP,
-            AZURE_TENANT_ID: process.env.AZURE_TENANT_ID,
-            AZURE_CLIENT_ID: process.env.AZURE_CLIENT_ID,
+        // Loga variáveis de ambiente relevantes para diagnosticar valores vazios (secret mascarado)
+        const envDebug = {
+            AZURE_SUBSCRIPTION_ID: process.env.AZURE_SUBSCRIPTION_ID || null,
+            AZURE_RESOURCE_GROUP: process.env.AZURE_RESOURCE_GROUP || null,
+            AZURE_TENANT_ID: process.env.AZURE_TENANT_ID || null,
+            AZURE_CLIENT_ID: process.env.AZURE_CLIENT_ID || null,
             AZURE_CLIENT_SECRET: process.env.AZURE_CLIENT_SECRET ? "(definida)" : "(vazia/indefinida)"
-        });
+        };
+
+        console.error("Erro ao listar VMs", envDebug);
         console.error(error);
         res.status(500).json({
             error: "Falha ao listar VMs",
             detalhe: error.response?.data || error.message,
+            envDebug
         });
     }
 }

@@ -110,3 +110,12 @@ exports.getLogExec = (req, res) => {
         res.json(results);
     });
 };
+
+exports.getAlerts = (req, res) => {
+    const sql = "SELECT * FROM AlertsRobots ORDER BY Tipo_Alerta";
+
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+};

@@ -12,18 +12,23 @@ exports.getRobots = (req, res) => {
 
 // POST
 exports.createRobot = (req, res) => {
-    const { Nome, Descricao, SiglaDB, DevResp, AreaResponsavel, Agenda, Ambiente } = req.body;
+    const { Nome, Descricao, SiglaDB, DevResp, AreaResponsavel, Agenda, Ambiente, Qtd_Robos,
+        Identificador, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas
+     } = req.body;
 
     const sql = `
         INSERT INTO Projects 
-        (Nome, Descricao, Sigla_DB, Dev_Responsavel, Area_Responsavel, Agenda, Ambiente, Status_Exec)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        (Nome, Descricao, Sigla_DB, Dev_Responsavel, Area_Responsavel, Agenda, Ambiente, Status_Exec,
+        Qtd_Robos, Identificacao, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
         Nome, Descricao, SiglaDB, DevResp,
         AreaResponsavel, Agenda, Ambiente,
-        "Waiting"
+        "Waiting", Qtd_Robos, Identificador,
+        Diretor, Key_User, Objetivo, Data_Criacao,
+        Sistemas_Utilizados, Tecnologias_Utilizadas
     ];
 
     db.query(sql, values, (err, result) => {

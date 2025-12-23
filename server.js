@@ -10,7 +10,7 @@ const azureRoutes = require("./routes/azure.routes");
 const app = express();
 const port = process.env.PORT || 3001;
 
-const FRONT_URL = "https://calm-island-0b5e87d0f.3.azurestaticapps.net";
+const FRONT_URL = "https://yellow-bay-03a8b890f.6.azurestaticapps.net";
 
 const corsOptions = {
   origin: FRONT_URL,

@@ -3,11 +3,11 @@ name: Deploy Backend to Azure Container Apps
 on:
   push:
     branches:
-      - main
+      - dev
 
 env:
   DOCKER_IMAGE: rafaelmartinswen/portal-rpa-gpssa-node:latest
-  CONTAINER_APP_NAME: portal-rpa-backend
+  CONTAINER_APP_NAME: portal-rpa-backend-dev
   RESOURCE_GROUP: GPS_RPA_PRODUCAO
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_DEV }}
 
       # Build da imagem
       - name: Build Docker image

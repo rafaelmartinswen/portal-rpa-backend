@@ -60,6 +60,7 @@ exports.deleteRobot = (req, res) => {
     });
 };
 
+// GET (DATABASE RPA)
 exports.getListaInicial = (req, res) => {
     const { robotName } = req.params;
 
@@ -69,8 +70,7 @@ exports.getListaInicial = (req, res) => {
     }
 
     const tableName = `${robotName}_ListaInicial`;
-    // const sql = `SELECT * FROM \`${tableName}\``; // usa crase para identificar tabela
-    const sql = `SELECT * FROM \`${tableName}\` WHERE Status_Processo IS NULL`; // RESCISÕES
+    const sql = `SELECT * FROM RPA.\`${tableName}\` WHERE Status_Processo IS NULL`; // RESCISÕES
 
     db.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: err });
@@ -78,6 +78,7 @@ exports.getListaInicial = (req, res) => {
     });
 };
 
+// GET (DATABASE RPA)
 exports.getLogExec = (req, res) => {
     const { robotName } = req.params;
     const { Status_Processo } = req.query;
@@ -91,7 +92,7 @@ exports.getLogExec = (req, res) => {
 
     let sql = `
         SELECT * 
-        FROM \`${tableName}\`
+        FROM RPA.\`${tableName}\`
         WHERE Data_Processo >= DATE_SUB(NOW(), INTERVAL 30 DAY)
     `;
 
@@ -116,6 +117,7 @@ exports.getLogExec = (req, res) => {
     });
 };
 
+// GET
 exports.getAlerts = (req, res) => {
     const sql = "SELECT * FROM AlertsRobots ORDER BY Tipo_Alerta";
 

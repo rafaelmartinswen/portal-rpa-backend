@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-require("dotenv").config(); // garante o carregamento do .env
+require("dotenv").config();
 
 const db = mysql.createPool({
   host: process.env.DB_HOST,
@@ -9,4 +9,3 @@ const db = mysql.createPool({
 });
 
 module.exports = db;
-//deplo4

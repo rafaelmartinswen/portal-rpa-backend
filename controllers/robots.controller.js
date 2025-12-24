@@ -13,14 +13,16 @@ exports.getRobots = (req, res) => {
 // POST
 exports.createRobot = (req, res) => {
     const { Nome, Descricao, SiglaDB, DevResp, AreaResponsavel, Agenda, Ambiente, Qtd_Robos,
-        Identificador, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas
+        Identificador, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas,
+        tt_min_exec, tt_exec_semana, tt_semana
      } = req.body;
 
     const sql = `
         INSERT INTO Projects 
         (Nome, Descricao, Sigla_DB, Dev_Responsavel, Area_Responsavel, Agenda, Ambiente, Status_Exec,
-        Qtd_Robos, Identificacao, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DATE(?), ?, ?)
+        Qtd_Robos, Identificacao, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas,
+        tt_min_exec, tt_exec_semana, tt_semana)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DATE(?), ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -28,7 +30,8 @@ exports.createRobot = (req, res) => {
         AreaResponsavel, Agenda, Ambiente,
         "Waiting", Qtd_Robos, Identificador,
         Diretor, Key_User, Objetivo, Data_Criacao,
-        Sistemas_Utilizados, Tecnologias_Utilizadas
+        Sistemas_Utilizados, Tecnologias_Utilizadas,
+        tt_min_exec, tt_exec_semana, tt_semana
     ];
 
     db.query(sql, values, (err, result) => {

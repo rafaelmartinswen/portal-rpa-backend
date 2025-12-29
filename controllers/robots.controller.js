@@ -14,14 +14,14 @@ exports.getRobots = (req, res) => {
 exports.createRobot = (req, res) => {
     const { Nome, Descricao, SiglaDB, DevResp, AreaResponsavel, Agenda, Ambiente, Qtd_Robos,
         Identificador, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas,
-        tt_min_exec, tt_semana, obs_agenda: Obs_Agenda
+        tt_min_exec, tt_semana, obs_agenda
      } = req.body;
 
     const sql = `
         INSERT INTO Projects 
         (Nome, Descricao, Sigla_DB, Dev_Responsavel, Area_Responsavel, Agenda, Ambiente, Status_Exec,
         Qtd_Robos, Identificacao, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas,
-        tt_min_exec, tt_semana, Obs_Agenda)
+        tt_min_exec, tt_semana, obs_agenda)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DATE(?), ?, ?, ?, ?, ?)
     `;
 
@@ -31,8 +31,11 @@ exports.createRobot = (req, res) => {
         "Waiting", Qtd_Robos, Identificador,
         Diretor, Key_User, Objetivo, Data_Criacao,
         Sistemas_Utilizados, Tecnologias_Utilizadas,
-        tt_min_exec, tt_semana, Obs_Agenda
+        tt_min_exec, tt_semana, obs_agenda
     ];
+
+    console.log("createRobot payload", req.body);
+    console.log("createRobot values", values);
 
     db.query(sql, values, (err, result) => {
         if (err) return res.status(500).json({ error: err });

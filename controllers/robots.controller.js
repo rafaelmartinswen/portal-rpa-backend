@@ -14,7 +14,7 @@ exports.getRobots = (req, res) => {
 exports.createRobot = (req, res) => {
     const { Nome, Descricao, SiglaDB, DevResp, AreaResponsavel, Agenda, Ambiente, Qtd_Robos,
         Identificador, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas,
-        tt_min_exec, tt_semana, obs_agenda
+        tt_min_exec, tt_semana, obs_agenda: Obs_Agenda
      } = req.body;
 
     const sql = `
@@ -31,7 +31,7 @@ exports.createRobot = (req, res) => {
         "Waiting", Qtd_Robos, Identificador,
         Diretor, Key_User, Objetivo, Data_Criacao,
         Sistemas_Utilizados, Tecnologias_Utilizadas,
-        tt_min_exec, tt_semana, obs_agenda
+        tt_min_exec, tt_semana, Obs_Agenda
     ];
 
     db.query(sql, values, (err, result) => {

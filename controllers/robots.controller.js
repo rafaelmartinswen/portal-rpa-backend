@@ -21,7 +21,7 @@ exports.createRobot = (req, res) => {
         INSERT INTO Projects 
         (Nome, Descricao, Sigla_DB, Dev_Responsavel, Area_Responsavel, Agenda, Ambiente, Status_Exec,
         Qtd_Robos, Identificacao, Diretor, Key_User, Objetivo, Data_Criacao, Sistemas_Utilizados, Tecnologias_Utilizadas,
-        tt_min_exec, tt_semana, obs_agenda)
+        tt_min_exec, tt_semana, Obs_Agenda)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DATE(?), ?, ?, ?, ?, ?)
     `;
 

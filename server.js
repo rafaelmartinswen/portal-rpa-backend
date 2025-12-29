@@ -2,7 +2,6 @@ require("dotenv").config();
  
 const express = require("express");
 const cors = require("cors");
- 
 const robotsRoutes = require("./routes/robots.routes");
 const usersRoutes = require("./routes/users.routes");
 const authRoutes = require("./routes/auth.routes");
@@ -22,10 +21,6 @@ const corsOptions = {
  
 // CORS ÚNICO E GLOBAL
 app.use(cors(corsOptions));
- 
-// Preflight tratado pelo próprio cors
-app.options("*", cors(corsOptions));
- 
 app.use(express.json());
  
 // rotas

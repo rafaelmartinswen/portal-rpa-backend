@@ -34,4 +34,4 @@ app.listen(port, () => {
   console.log(`Backend rodando na porta ${port}`);
   console.log("CORS liberado para:", FRONT_URL);
 });
-///
+//

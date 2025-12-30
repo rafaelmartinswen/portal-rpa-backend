@@ -205,7 +205,7 @@ exports.getSchedule = (req, res) => {
                     ELSE NULL
                 END AS minutos_execucao
             FROM calendario c
-            CROSS JOIN Projects p
+            CROSS JOIN rpa_portal_prod.Projects p
         )
 
         SELECT

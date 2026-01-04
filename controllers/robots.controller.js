@@ -124,6 +124,41 @@ exports.getLogExec = (req, res) => {
     });
 };
 
+exports.getLogExecHistory = (req, res) => {
+    const { robotName } = req.params;
+    const { date } = req.query;
+
+    // seguran??a m??nima
+    if (!/^[A-Za-z0-9_]+$/.test(robotName)) {
+        return res.status(400).json({ error: "Nome de robô inválido" });
+    }
+
+    if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return res.status(400).json({ error: "Data inválida. Use YYYY-MM-DD" });
+    }
+
+    const tableName = `${robotName}_logexec`;
+
+    let sql = `
+        SELECT * 
+        FROM RPA.\`${tableName}\`
+    `;
+
+    const params = [];
+
+    if (date) {
+        sql += ` WHERE Data_Processo >= ? AND Data_Processo < DATE_ADD(?, INTERVAL 1 DAY)`;
+        params.push(date, date);
+    } else {
+        sql += ` WHERE Data_Processo >= DATE_SUB(NOW(), INTERVAL 30 DAY)`;
+    }
+
+    db.query(sql, params, (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+};
+
 //GET
 exports.getAlerts = (req, res) => {
     const sql = "SELECT * FROM AlertsRobots ORDER BY Tipo_Alerta";

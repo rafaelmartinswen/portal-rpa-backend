@@ -6,6 +6,7 @@ router.get("/", robots.getRobots);
 router.get("/schedule", robots.getSchedule);
 router.get("/lista-inicial/:robotName", robots.getListaInicial);
 router.get("/log-exec/:robotName", robots.getLogExec);
+router.get("/log-exec-history/:robotName", robots.getLogExecHistory);
 router.get("/alertsRobots", robots.getAlerts);
 router.post("/", robots.createRobot);
 router.delete("/:id", robots.deleteRobot);

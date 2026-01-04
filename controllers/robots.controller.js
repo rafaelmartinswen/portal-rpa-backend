@@ -138,7 +138,7 @@ exports.getAlerts = (req, res) => {
 exports.getSchedule = (req, res) => {
     const sql = `
         WITH RECURSIVE calendario AS (
-            SELECT DATE_FORMAT(CURDATE(), '%Y-%m-01') AS data_dia
+            SELECT DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY) AS data_dia
             UNION ALL
             SELECT DATE_ADD(data_dia, INTERVAL 1 DAY)
             FROM calendario
@@ -148,6 +148,7 @@ exports.getSchedule = (req, res) => {
             SELECT
                 p.Nome,
                 p.Descricao,
+                p.Area_Responsavel,
                 DAY(c.data_dia) AS dia_mes,
                 CASE
                     -- Diário
@@ -163,8 +164,7 @@ exports.getSchedule = (req, res) => {
 
                     -- Semanal
                     WHEN p.tt_semana = 'Semanal'
-                         AND WEEKDAY(c.data_dia) + 1 = p.Agenda
-                    THEN
+                         AND WEEKDAY(c.data_dia) + 1 = p.Agenda THEN
                         CASE
                             WHEN p.tt_min_exec < 60 THEN CONCAT(p.tt_min_exec, 'm')
                             WHEN MOD(p.tt_min_exec, 60) = 0 THEN CONCAT(FLOOR(p.tt_min_exec / 60), 'h')
@@ -177,8 +177,7 @@ exports.getSchedule = (req, res) => {
                     -- Quinzenal
                     WHEN p.tt_semana = 'Quinzenal'
                          AND WEEKDAY(c.data_dia) + 1 = p.Agenda
-                         AND FLOOR((DAY(c.data_dia) - 1) / 14) = 0
-                    THEN
+                         AND FLOOR((DAY(c.data_dia) - 1) / 14) = 0 THEN
                         CASE
                             WHEN p.tt_min_exec < 60 THEN CONCAT(p.tt_min_exec, 'm')
                             WHEN MOD(p.tt_min_exec, 60) = 0 THEN CONCAT(FLOOR(p.tt_min_exec / 60), 'h')
@@ -191,8 +190,7 @@ exports.getSchedule = (req, res) => {
                     -- Mensal
                     WHEN p.tt_semana = 'Mensal'
                          AND WEEKDAY(c.data_dia) + 1 = p.Agenda
-                         AND DAY(c.data_dia) <= 7
-                    THEN
+                         AND DAY(c.data_dia) <= 7 THEN
                         CASE
                             WHEN p.tt_min_exec < 60 THEN CONCAT(p.tt_min_exec, 'm')
                             WHEN MOD(p.tt_min_exec, 60) = 0 THEN CONCAT(FLOOR(p.tt_min_exec / 60), 'h')
@@ -201,16 +199,15 @@ exports.getSchedule = (req, res) => {
                                 LPAD(MOD(p.tt_min_exec, 60), 2, '0')
                             )
                         END
-
                     ELSE NULL
                 END AS minutos_execucao
             FROM calendario c
             CROSS JOIN rpa_portal_prod.Projects p
         )
-
         SELECT
             Nome,
             Descricao,
+            Area_Responsavel,
 
             MAX(CASE WHEN dia_mes = 1  THEN minutos_execucao END) AS \`01\`,
             MAX(CASE WHEN dia_mes = 2  THEN minutos_execucao END) AS \`02\`,
@@ -245,16 +242,16 @@ exports.getSchedule = (req, res) => {
             MAX(CASE WHEN dia_mes = 31 THEN minutos_execucao END) AS \`31\`
 
         FROM agenda_exec
-        GROUP BY Nome, Descricao
+        GROUP BY Nome, Descricao, Area_Responsavel
         ORDER BY Nome;
     `;
 
     db.query(sql, (err, results) => {
         if (err) {
-            console.error(err);
+            console.error('Erro ao buscar agenda:', err);
             return res.status(500).json({ error: err.message });
         }
 
-        res.json(results);
+        res.status(200).json(results);
     });
 };

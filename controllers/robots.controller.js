@@ -153,6 +153,8 @@ exports.getLogExecHistory = (req, res) => {
         sql += ` WHERE Data_Processo >= DATE_SUB(NOW(), INTERVAL 30 DAY)`;
     }
 
+    sql += ` ORDER BY Data_Processo DESC`;
+
     db.query(sql, params, (err, results) => {
         if (err) return res.status(500).json({ error: err });
         res.json(results);
